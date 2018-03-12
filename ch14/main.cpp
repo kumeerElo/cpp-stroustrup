@@ -12,6 +12,8 @@ int main()
 {
 try
 {
+	//a comment for git 
+
 	Simple_window win (Point(400,100),1000,800,"main");
 	Point tl(300,300);
 
