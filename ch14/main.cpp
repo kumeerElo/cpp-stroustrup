@@ -17,12 +17,14 @@ try
 	Simple_window win (Point(400,100),1000,800,"main");
 	Point tl(300,300);
 
+
+/* problem #9 - group different objects into one.
+	Group shapes;
 	Circle c(tl,100);
 	Ellipse e (Point(tl.x+200,tl.y), 200,100);
 	Rectangle r (Point(100,100), 200,100);
 
-	Group shapes;
-	/*shapes.add_shape(c);
+	shapes.add_shape(c);
 	shapes.add_shape(e);
 	shapes.add_shape(r);
 	shapes.set_fill_color(Color::blue);
@@ -33,7 +35,7 @@ try
 
 	shapes.move(100,400);
 	win.wait_for_button();
-  */ 
+ 
 
 	Point p(100,100);
 
@@ -42,7 +44,7 @@ try
 	add_first_piece(checkerBoard, 600,600);
 	win.attach(checkerBoard);
 	win.wait_for_button();
-		
+*/		
 
 /* problem # 6	
 	Striped_Circle sc(tl,200);
