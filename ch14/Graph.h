@@ -653,5 +653,20 @@ void create_checker_board(Group &g, Point tl, int xNum, int yNum, int xSize,
 
 void add_first_piece(Group& g, int xSize, int ySize);
 
+class BinaryTree: public Shape
+{
+public:
+	BinaryTree(Point p, int level);
+	void add_left_dot (Point p, int level);
+	void add_right_dot (Point p, int level);
+	void draw_lines()const;
+private:
+	Point m_root;
+	int m_level;
+	Vector_ref<Circle> m_dots;
+	Vector_ref<Arrow> m_arrows;
+	//Lines m_lines;
+};
+
 } //namespace Graph_lib
 //#endif

@@ -13,6 +13,16 @@ double distance (Point p1, Point p2)
 	double dy = p1.y - p2.y;
 	return sqrt(dx*dx+dy*dy);
 }
+int power (int number, int times)
+{
+	int prod = 1;
+	if (times==0)
+		return prod;
+	for (int i=0; i<times; i++){
+		prod *=number;
+	}
+	return prod;
+};
 
 Point rotate(Point p, double theta, Point pivot)
 {
@@ -1597,6 +1607,72 @@ void add_first_piece(Group& g, int xSize, int ySize)
 	Circle *c = new Circle(Point(tl.x+dx/2, tl.y+dy/2),r);
 	c->set_fill_color(Color::yellow);
 	g.add_shape(*c);
+}
+
+void BinaryTree::add_right_dot(Point p, int level)
+{
+	int r = 30;
+	int dx = 200-50*level;
+	int dy = 150;
+
+	Point newP(p.x+dx, p.y+dy);
+	Circle* c = new Circle(newP,r);
+	c->set_fill_color(Color::black);
+	m_dots.push_back(c);
+
+	Arrow* a = new Arrow(p,newP);
+	m_arrows.push_back(a);
+	//m_lines.add(p,newP);
+
+	if (level == 0)	
+		return;
+	add_left_dot(newP,level-1);
+	add_right_dot(newP,level-1);
+}
+
+void BinaryTree::add_left_dot(Point p, int level)
+{
+	int r = 30;
+	int dx = 200-50*level;
+	int dy = 150;
+
+	Point newP(p.x-dx, p.y+dy);
+	Circle* c = new Circle(newP,r);
+	c->set_fill_color(Color::black);
+	m_dots.push_back(c);
+
+	Arrow* a = new Arrow(p,newP);
+	m_arrows.push_back(a);
+	//m_lines.add(p,newP);
+
+	if (level ==0)
+		return;
+	add_left_dot(newP,level-1);
+	add_right_dot(newP,level-1);
+}
+
+BinaryTree::BinaryTree(Point p, int level)
+:m_root(p),m_level(level)
+{
+	int r = 30;
+	Circle* c = new Circle(p,r);
+	c->set_fill_color(Color::black);
+	m_dots.push_back(c);	
+	if (level == 0)
+		return;
+	add_left_dot(p,level-1);
+	add_right_dot(p,level-1);
+	//m_lines.set_color(Color::blue);
+}
+
+void BinaryTree::draw_lines()const
+{
+	for (int i=0; i<m_arrows.size(); i++)
+		m_arrows[i].draw_lines();
+	//m_lines.draw();
+	for (int i=0; i<m_dots.size(); i++)
+		m_dots[i].draw_lines();
+
 }
 
 } // Graph

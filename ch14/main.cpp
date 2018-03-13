@@ -15,8 +15,11 @@ try
 	//a comment for git 
 
 	Simple_window win (Point(400,100),1000,800,"main");
-	Point tl(300,300);
+	Point tl(500,100);
 
+	BinaryTree tree(tl,3);
+	win.attach(tree);
+	win.wait_for_button();
 
 /* problem #9 - group different objects into one.
 	Group shapes;
