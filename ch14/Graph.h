@@ -753,5 +753,40 @@ private:
 
 void print_iterator(Iterator& iter);
 
+class Controller
+{
+public:
+	Controller(int level):m_level(level){}
+	virtual bool on(){
+		if (m_level !=0)
+			return true;
+	}
+	virtual bool off(){return !on();}
+	virtual void set_level(int level){m_level=level;}
+	virtual void show(){
+		if (on())
+			cout << "It's on!" << endl; 
+		else
+			cout << "It's off!" << endl;
+		cout << "current level: " << m_level << endl;
+	}
+protected:
+	int m_level;
+};
+
+
+class Color_Controller: public Controller
+{
+public:
+	Color_Controller(int color):Controller(color),m_init(color){}
+	bool on(){
+		if (m_level == m_init)
+			return 1;
+		return 0;
+	}
+private:
+	int m_init;
+};
+
 } //namespace Graph_lib
 //#endif

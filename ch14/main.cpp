@@ -17,6 +17,20 @@ try
 	Simple_window win (Point(400,100),1000,800,"main");
 	Point tl(500,100);
 
+	/* not so great example of polymorphism - problem #16
+	Controller control(0);
+	cout << "on:";
+	cout << control.on()  << endl;
+	control.set_level(7);
+	control.show();
+
+	Color_Controller c_control(12);
+	cout << "is on? " << c_control.on()  << endl;
+	c_control.set_level(7);
+	cout << "is on? " << c_control.on()  << endl;
+	c_control.show();
+*/
+
 /* beautiful polymorphism example - prob #15
 	Vector_Iterator vecIter(10);
 	cout << "printing vector Iterator\n";
