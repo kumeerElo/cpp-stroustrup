@@ -17,15 +17,17 @@ try
 	Simple_window win (Point(400,100),1000,800,"main");
 	Point tl(500,100);
 
+/* beautiful polymorphism example - prob #15
 	Vector_Iterator vecIter(10);
 	cout << "printing vector Iterator\n";
-	//vecIter.print();
-	print_iterator(vecIter);
+	//vecIter.print(); // this can be used
+	print_iterator(vecIter); // as well as this approach
 
 	List_Iterator listIter(20);
 	cout << "printing list Iterator\n";
 	//listIter.print();
 	print_iterator(listIter);
+*/
 
 /* Binary tree implementation - problem 11 - 13
 	//BinaryTree2 tree(tl,3);
