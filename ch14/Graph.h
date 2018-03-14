@@ -668,5 +668,35 @@ private:
 	//Lines m_lines;
 };
 
+class BinaryTree2: public Shape
+{
+public:
+	BinaryTree2(Point p, int level);
+	void add_left_dot (Point p, int level);
+	void add_right_dot (Point p, int level);
+	virtual void draw_nodes();
+	virtual void draw_connectors();
+	void draw_lines()const;
+protected:
+	Vector_ref<Shape> m_shape;
+	Vector_ref<Arrow> m_connectors;
+	vector<Point> m_points;
+	vector<PointPair> m_pointPairs;
+private:
+	Point m_root;
+	int m_level;
+};
+
+class SquareTree: public BinaryTree2
+{
+public:
+	SquareTree(Point p, int level):BinaryTree2(p,level){};
+	void draw_nodes();
+	void draw_connectors();
+};
+
+
+
+
 } //namespace Graph_lib
 //#endif

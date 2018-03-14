@@ -19,10 +19,20 @@ struct Point {
 };
 
 inline bool operator==(Point a, Point b) { return a.x==b.x && a.y==b.y; }
-
 inline bool operator!=(Point a, Point b) { return !(a==b); }
-
 ostream& operator<<(ostream& os, const Point& p);
+
+class PointPair
+{
+public:
+	PointPair(Point p1, Point p2): m_p1(p1), m_p2(p2){};	
+	Point get_p1()const {return m_p1;}
+	Point get_p2()const {return m_p2;}
+private:
+	Point m_p1;
+	Point m_p2;
+};
+
 }
 
 

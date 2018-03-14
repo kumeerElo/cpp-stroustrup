@@ -1675,4 +1675,103 @@ void BinaryTree::draw_lines()const
 
 }
 
+// second implementation - this is going to be used in problem #12
+
+void BinaryTree2::add_right_dot(Point p, int level)
+{
+	int dx = 200-50*level;
+	int dy = 150;
+
+	Point newP(p.x+dx, p.y+dy);
+	m_points.push_back(newP);
+	m_pointPairs.push_back(PointPair(p,newP));
+
+	if (level == 0)	
+		return;
+
+	add_left_dot(newP,level-1);
+	add_right_dot(newP,level-1);
+}
+
+void BinaryTree2::add_left_dot(Point p, int level)
+{
+	int dx = 200-50*level;
+	int dy = 150;
+
+	Point newP(p.x-dx, p.y+dy);
+	m_points.push_back(newP);
+	m_pointPairs.push_back(PointPair(p,newP));
+
+	if (level ==0)
+		return;
+
+	add_left_dot(newP,level-1);
+	add_right_dot(newP,level-1);
+}
+
+BinaryTree2::BinaryTree2(Point p, int level)
+:m_root(p),m_level(level)
+{
+	m_points.push_back(p);	
+	if (level == 0)
+		return;
+	add_left_dot(p,level-1);
+	add_right_dot(p,level-1);
+	//draw_nodes();
+	//draw_connectors();
+}
+
+void BinaryTree2::draw_nodes()
+{
+	int r = 30;
+	for (int i=0; i< m_points.size(); i++){
+		Circle* c = new Circle(m_points[i],r);
+		c->set_fill_color(Color::blue);
+		m_shape.push_back(c);
+	}
+}
+
+void BinaryTree2::draw_connectors()
+{
+	for (int i=0; i<m_pointPairs.size(); i++){
+		Arrow* a = new Arrow(m_pointPairs[i].get_p1(), m_pointPairs[i].get_p2());
+		a->set_color(Color::yellow);
+		m_connectors.push_back(a);
+	}
+}
+
+void BinaryTree2::draw_lines()const
+{
+	for (int i=0; i< m_connectors.size(); i++){
+		m_connectors[i].draw();
+	}
+
+	for (int i=0; i< m_shape.size(); i++){
+		m_shape[i].draw();
+	}
+}
+
+void SquareTree::draw_nodes()
+{
+	int l = 50;
+	for (int i=0; i< m_points.size(); i++){
+		Rectangle * r = new Rectangle (m_points[i],l,l);
+		r->set_fill_color(Color::red);
+		m_shape.push_back(r);
+	}
+}
+
+void SquareTree::draw_connectors()
+{
+	int l = 50; //side of the square
+	for (int i=0; i<m_pointPairs.size(); i++){
+		Point shiftP1(m_pointPairs[i].get_p1().x+l/2,m_pointPairs[i].get_p1().y+l/2);
+		Point shiftP2(m_pointPairs[i].get_p2().x+l/2,m_pointPairs[i].get_p2().y+l/2);
+		Arrow* a = new Arrow(shiftP1, shiftP2);
+		a->set_color(Color::green);
+		m_connectors.push_back(a);
+	}
+}
+
+
 } // Graph
