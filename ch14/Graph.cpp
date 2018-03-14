@@ -1773,5 +1773,22 @@ void SquareTree::draw_connectors()
 	}
 }
 
+void print_iterator(Iterator& iter)
+{
+	while (1){
+		double* val = iter.next();
+		if (val == NULL) return;
+		cout << *val << endl;	
+	}
+}
+
+void Iterator::print()
+{
+	while (1){
+		double* val = next();
+		if (val == NULL) return;
+		cout << *val << endl;	
+	}
+}
 
 } // Graph

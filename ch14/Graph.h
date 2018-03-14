@@ -695,8 +695,63 @@ public:
 	void draw_connectors();
 };
 
+class Iterator
+{
+public:
+	virtual double* next()=0;
+	void print();
+};
 
+class Vector_Iterator: public Iterator
+{
+public:
+	Vector_Iterator(int size):m_size(size),m_index(0){
+		if (size==0)
+			error ("Vector_Iteration", "enter at least 1 member");
+		for (int i=0; i< size; i++)
+			m_vec.push_back(i*i);
+	}
+	double* next(){
+		if (m_index > m_size-1)
+			return NULL;
+		double* tmp = &m_vec[m_index];
+		m_index++;
+		return tmp;
+	}
+private:
+	int m_index;
+	int m_size;
+	vector<double> m_vec;
+};
 
+class List_Iterator: public Iterator
+{
+public:
+	List_Iterator(int size):m_size(size),m_counter(0){
+		if (size==0)
+			error ("List Iterator", "enter at least 1 member");
+		for (int i=0; i< size; i++)
+			m_list.push_back(i*i);
+		m_iter = m_list.begin();
+	}
+
+	double* next(){
+		if (m_counter == m_size)
+			return NULL;
+		double* tmp= new double;
+		*tmp = *m_iter;
+		m_iter++;
+		m_counter++;
+		return tmp;
+	}
+private:
+	list<double>::iterator m_iter;
+	int m_size;
+	int m_counter;
+	list<double> m_list;
+};
+
+void print_iterator(Iterator& iter);
 
 } //namespace Graph_lib
 //#endif
