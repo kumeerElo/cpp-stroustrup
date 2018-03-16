@@ -14,11 +14,114 @@ double slope(double x){return x/2;}
 double square(double x){return x*x;}
 double sloping_cos(double x){return cos(x)+slope(x);}
 
+struct Person
+{
+	string m_name;
+	int m_age;
+};
+
+istream& operator>>(istream& is , Person& person)
+{
+	string name;
+	int age;
+	cout << "enter person's name" << endl;
+	is >>name;
+	cout << "enter person's age" << endl;
+	is >>age;
+	person.m_name = name;
+	person.m_age = age;
+	return is;
+}
+
+ostream& operator<<(ostream& os , Person& person)
+{
+	return os << person.m_name  << " , " << person.m_age;
+}
+
+const char fixChars[]{';',':', '"','[', ']', '*', '&', '^', '%', '$', '#', '@', '!'};
+vector<char> punct(fixChars, fixChars+sizeof(fixChars)/sizeof(fixChars[0]));
+
+class Person_Class
+{
+public:
+	Person_Class():m_name(""), m_age(0){}
+	Person_Class(string name, int age):m_name(name), m_age(age)
+	{
+		if (m_age < 0 || m_age > 150)
+			error ("Person_Class constructor"," unreasonable age");
+		
+		for (int i=0; i<m_name.size();i++){
+			char letter = m_name[i];
+			for (int j=0; j<punct.size(); j++){
+				if (letter == punct[j])
+					error ("Person_Class constructor"," punctuation letter in name");
+			}
+		}
+	}
+
+	string name()const{return m_name;}
+	int age()const{return m_age;}
+	void set_name(string name){m_name = name;}
+	void set_age(int age){m_age= age;}
+private:
+	string m_name;
+	int m_age;
+};
+
+istream& operator>>(istream& is, Person_Class& person)
+{
+	cout << "in Person_Class >>" << endl;
+	string name;
+	int age;
+	cout << "enter person's name" << endl;
+	is >>name;
+	cout << "enter person's age" << endl;
+	is >>age;
+	Person_Class person2(name,age);
+	person = person2;
+	//person.set_name(name);
+	//person.set_age(age);
+	return is;
+}
+
+ostream& operator<<(ostream& os , Person_Class& person)
+{
+	cout << "in Person_Class << " << endl;
+	return os << person.name()<< " , " << person.age();
+}
+
 int main()
 {
 try
 {
-//drill - function graphing
+//drill - class definition
+
+//person based on class person
+	
+	Person_Class person;
+	vector<Person_Class> persons;
+
+	while(cin>>person){
+		if (person.name() == "na")
+			break;
+		persons.push_back(person);	
+	}
+
+	for (int i=0; i< persons.size(); i++)
+		cout << persons[i].name() << "\t" << persons[i].age() << endl;
+
+//person based on struct person
+
+/*
+	Person person1, person2;
+	cin >> person1 >> person2;	
+	cout << "person's info" << endl;
+	cout << person1 << endl << person2 << endl;
+*/
+
+
+
+/*drill - function graphing
 
 	int xWin = 600;
 	int yWin = 600;
@@ -64,7 +167,7 @@ try
 	f5.set_color(Color::green);
 	win.attach(f5);
 	win.wait_for_button();
-
+*/
 
   return 0;
 }
