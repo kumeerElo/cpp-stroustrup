@@ -9,6 +9,7 @@
 using namespace::Graph_lib;
 using Graph_lib::Font;
 
+/*
 double one(double x){return 1;}
 double slope(double x){return x/2;}
 double square(double x){return x*x;}
@@ -89,6 +90,7 @@ ostream& operator<<(ostream& os , Person_Class& person)
 	cout << "in Person_Class << " << endl;
 	return os << person.name()<< " , " << person.age();
 }
+*/
 
 int main()
 {
@@ -96,7 +98,7 @@ try
 {
 //drill - class definition
 
-//person based on class person
+/*person based on class person
 	
 	Person_Class person;
 	vector<Person_Class> persons;
@@ -110,9 +112,10 @@ try
 	for (int i=0; i< persons.size(); i++)
 		cout << persons[i].name() << "\t" << persons[i].age() << endl;
 
-//person based on struct person
+*/
 
-/*
+/*person based on struct person
+
 	Person person1, person2;
 	cin >> person1 >> person2;	
 	cout << "person's info" << endl;
