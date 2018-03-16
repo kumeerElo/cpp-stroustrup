@@ -788,5 +788,31 @@ private:
 	int m_init;
 };
 
+//============= ch15 ===================
+
+class FunctionLean: public Shape
+{
+public:
+	FunctionLean(Fct* fun, double min, double max, Point orig, int numPoints=100, 
+						int xScale=20, int yScale=20):m_fun(fun), m_min(min), m_max(max), m_orig(orig), 
+						m_dataPoints(numPoints),m_xScale(xScale), m_yScale(yScale){}
+	void set_function(Fct* fun){m_fun=fun;}
+	void set_min_range(int min){m_min=min;}
+	void set_max_range(int max){m_max=max;}
+	void set_origin(Point point){m_orig=point;}
+	void set_data_points(int num){m_dataPoints=num;}
+	void set_xScale(int xScale){m_xScale=xScale;}
+	void set_yScale(int yScale){m_yScale=yScale;}
+	void create_function(); // must call this function, otherwise you won't have anything drawn !!
+private:
+	Fct* m_fun;
+	double m_min;
+	double m_max;
+	Point m_orig;
+	int m_dataPoints;
+	int m_xScale;
+	int m_yScale;
+};
+
 } //namespace Graph_lib
 //#endif

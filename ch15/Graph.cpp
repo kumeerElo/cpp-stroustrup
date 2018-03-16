@@ -253,6 +253,29 @@ Function::Function(Fct f, double r1, double r2, Point xy, int count, double xsca
   }
 }
 
+void FunctionLean::create_function()
+{
+/*basically the same function as the constructor of the "Function", but this gets called from
+	draw_lines() which means, we can modify things upto when we start to draw these lines in the window. 
+	Would have been very difficult to get points in the constructor and then modify them later on. 
+*/
+  if (m_max-m_min<=0) error("bad graphing range");
+  if (m_dataPoints<=0) error("non-positive graphing count");
+  double dist = (m_max-m_min)/m_dataPoints;
+  double x = m_min;
+  for (int i = 0; i<m_dataPoints; ++i) {
+    add(Point(m_orig.x+int(x*m_xScale),m_orig.y-int(m_fun(x)*m_yScale)));
+    x += dist;
+  }
+}
+
+/*void FunctionLean::draw_lines() const
+{
+	create_function();
+	Shape::draw_lines();
+}
+*/
+
 void Rectangle::draw_lines() const
 {
 
