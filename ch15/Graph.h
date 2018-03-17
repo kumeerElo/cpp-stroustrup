@@ -8,6 +8,7 @@
 #include "fltk.h"
 #include "std_lib_facilities.h"
 #include <vector>
+#include <fstream>
 
 namespace Graph_lib {
 // defense against ill-behaved Linux macros:
@@ -192,6 +193,7 @@ struct Rectangle : Shape {
   }
   void draw_lines() const;
 
+	Point tl(){return point(0);}
 //  void set_fill_color(Color col) { fcolor = col; }
 //  Color fill_color() { return fcolor; }
 
@@ -237,6 +239,8 @@ struct Text : Shape {
   // the point is the bottom left of the first letter
   Text(Point x, const string& s) : lab{ s } { add(x); }
 
+	Point tl(){return point(0);}
+
   void draw_lines() const;
 
   void set_label(const string& s) { lab = s; }
@@ -263,7 +267,8 @@ struct Axis : Shape {
   void move(int dx, int dy);
 
   void set_color(Color c);
-
+	void set_label(string lab){label.set_label(lab);}
+	void move_label_down(int dy){label.move(0,dy);}
   Text label;
   Lines notches;
 //  Orientation orin;
@@ -813,6 +818,45 @@ private:
 	int m_xScale;
 	int m_yScale;
 };
+
+
+class Bar_Graph: public Shape 
+{
+public:
+	Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale = 30, int barWidth = 30, int barSpacing = 30);
+	void draw_lines()const;	
+
+	void set_graphX_label(string lab){
+		m_xAxis->move_label_down(20);
+		m_xAxis->set_label(lab);
+	}
+	void set_graphY_label(string lab){m_yAxis->set_label(lab);}
+	void set_bar_labels(vector<string>& labels);
+	void set_bar_labels(vector<int>& labels);
+
+	void set_axes_color(Color color){
+		m_xAxis->set_color(color);
+		m_yAxis->set_color(color);
+	}
+	void set_bar_color(Color color){
+		for (int i=0; i < m_bars.size(); i++)
+			m_bars[i].set_fill_color(color);
+	}
+	void set_bar_label_color(Color color){
+		for (int i=0; i < m_bar_labels.size(); i++)
+			m_bar_labels[i].set_color(color);
+	}
+
+private:
+	Point m_orig;
+	Vector_ref<Rectangle> m_bars;
+	Vector_ref<Text> m_bar_labels;
+	Axis* m_xAxis;
+	Axis* m_yAxis;
+};
+
+
+
 
 } //namespace Graph_lib
 //#endif

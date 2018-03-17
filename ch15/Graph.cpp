@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include<map>
 #include <algorithm>
+#include <sstream>
 
 namespace Graph_lib {
 const double edge = 20;
@@ -1812,6 +1813,66 @@ void Iterator::print()
 		if (val == NULL) return;
 		cout << *val << endl;	
 	}
+}
+
+Bar_Graph::Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale, int barWidth, int barSpacing)
+:m_orig(orig), m_xAxis(x), m_yAxis(y)
+{
+	int xVal, yVal;
+	char ch1, ch2, ch3;
+	vector<int> xValues;
+	vector<int> yValues;
+	
+	while (ifs >>ch1 >>xVal >> ch2 >> yVal >> ch2){
+		if (!ifs.good() && !ifs.eof() )
+			error ("Bar_Graph::constructor", "problem reading the datafile");
+		xValues.push_back(xVal);
+		yValues.push_back(yVal);
+	}
+
+	if (xValues.size() ==0)
+		error ("Bar_Graph constructor", "enter at least one value");
+
+	int xcoord = m_orig.x+barSpacing; 
+	int ycoord= m_orig.y;
+
+	for (int i=0; i<xValues.size(); i++){
+		if (i>0)
+			xcoord = xcoord+ barSpacing+barWidth; 
+		ycoord = orig.y-yScale*yValues[i];
+		if (ycoord < 0)
+			error ("Bar_graph constructor", "negative y coord, adjust the scaling for the data values");
+		Rectangle* bar = new Rectangle(Point(xcoord,ycoord),barWidth,orig.y-ycoord);
+		m_bars.push_back(bar);
+	}
+}
+
+void Bar_Graph::set_bar_labels(vector<string> &labels)
+{
+	if (labels.size() != m_bars.size())
+		error ("Bar_Graph:: set_bar_labels", " not enough labels");	
+
+	for (int i=0; i<m_bars.size(); i++){
+		Point locX(m_bars[i].tl().x,m_bars[i].tl().y+m_bars[i].height()+20);
+		Point locY(m_bars[i].tl().x,m_bars[i].tl().y-20);
+		Text* txtX = new Text(locX,labels[i]);
+		m_bar_labels.push_back(txtX);
+		ostringstream os;
+		os <<  m_bars[i].height();
+		Text* txtY = new Text(locY, os.str());
+		m_bar_labels.push_back(txtY);
+	}
+}
+
+void Bar_Graph::draw_lines()const
+{
+	m_xAxis->draw();
+	m_yAxis->draw();
+	for(int i=0; i< m_bars.size(); i++)
+		m_bars[i].draw();
+
+	for(int i=0; i< m_bar_labels.size(); i++)
+		m_bar_labels[i].draw();
 }
 
 } // Graph
