@@ -1815,13 +1815,13 @@ void Iterator::print()
 	}
 }
 
-Bar_Graph::Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale, int barWidth, int barSpacing)
+Bar_Graph::Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale, int barSpacing, int barWidth)
 :m_orig(orig), m_xAxis(x), m_yAxis(y)
 {
-	int xVal, yVal;
+	double xVal, yVal;
 	char ch1, ch2, ch3;
-	vector<int> xValues;
-	vector<int> yValues;
+	vector<double> xValues;
+	vector<double> yValues;
 	
 	while (ifs >>ch1 >>xVal >> ch2 >> yVal >> ch2){
 		if (!ifs.good() && !ifs.eof() )
@@ -1845,7 +1845,26 @@ Bar_Graph::Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale, in
 		Rectangle* bar = new Rectangle(Point(xcoord,ycoord),barWidth,orig.y-ycoord);
 		m_bars.push_back(bar);
 	}
+
+	set_bar_labels(xValues, yValues);
 }
+
+void Bar_Graph::set_bar_labels(vector<double> &xvals, vector<double> &yvals)
+{
+	for (int i=0; i<m_bars.size(); i++){
+		Point locX(m_bars[i].tl().x,m_bars[i].tl().y+m_bars[i].height()+20);
+		Point locY(m_bars[i].tl().x,m_bars[i].tl().y-20);
+		ostringstream os1;
+		os1 << xvals[i];
+		Text* txtX = new Text(locX,os1.str());
+		m_bar_labels.push_back(txtX);
+		ostringstream os2;
+		os2 << yvals[i]; 
+		Text* txtY = new Text(locY, os2.str());
+		m_bar_labels.push_back(txtY);
+	}
+}
+
 
 void Bar_Graph::set_bar_labels(vector<string> &labels)
 {
@@ -1863,6 +1882,19 @@ void Bar_Graph::set_bar_labels(vector<string> &labels)
 		m_bar_labels.push_back(txtY);
 	}
 }
+
+void Bar_Graph::move_bars(int dx)
+{
+	for(int i=0; i<m_bars.size(); i++)
+		m_bars[i].move(dx,0);
+}
+
+void Bar_Graph::move_y_labels_top(int dx)
+{
+	for (int i=1; i<m_bar_labels.size(); i+=2)
+		m_bar_labels[i].move(dx,0);
+}
+
 
 void Bar_Graph::draw_lines()const
 {

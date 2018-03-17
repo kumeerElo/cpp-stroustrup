@@ -823,7 +823,7 @@ private:
 class Bar_Graph: public Shape 
 {
 public:
-	Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale = 30, int barWidth = 30, int barSpacing = 30);
+	Bar_Graph(ifstream& ifs, Axis* x, Axis* y, Point orig, int yScale = 30, int barSpacing =30, int barWidth = 30);
 	void draw_lines()const;	
 
 	void set_graphX_label(string lab){
@@ -832,7 +832,7 @@ public:
 	}
 	void set_graphY_label(string lab){m_yAxis->set_label(lab);}
 	void set_bar_labels(vector<string>& labels);
-	void set_bar_labels(vector<int>& labels);
+	void set_bar_labels(vector<double>& xvals, vector<double>& yvals);
 
 	void set_axes_color(Color color){
 		m_xAxis->set_color(color);
@@ -846,6 +846,9 @@ public:
 		for (int i=0; i < m_bar_labels.size(); i++)
 			m_bar_labels[i].set_color(color);
 	}
+
+	void move_bars(int dx);
+	void move_y_labels_top(int dx);
 
 private:
 	Point m_orig;
