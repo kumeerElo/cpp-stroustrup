@@ -14,23 +14,10 @@ int main()
 {
 try
 {
-	// class Bar-Graph - prob 8, 11
 	int xWin = 1400;
 	int yWin = 800;
-	Simple_window win (Point(400,100),xWin,yWin,"Function Graphs");
-	Point origin(100,yWin/2+300);
-	int length = 1200;
-	int ticSpacing = 20;
-	int numNotch = length/ticSpacing;
-	Axis xAxis(Axis::x, origin, length-70, numNotch, "x-axis");
-	Axis yAxis(Axis::y, origin, length/2, numNotch, "y-axis");
-	win.attach(xAxis);
-	win.attach(yAxis);
-
-
-
-	win.wait_for_button();
-  return 0;
+	Color_lines_window win (Point(400,100),xWin,yWin,"Function Graphs");
+	return gui_main();
 }
 
 catch(exception& e){

@@ -128,6 +128,70 @@ namespace Graph_lib {
 
 //------------------------------------------------------------------------------
 
+class Lines_window: public Window{
+public:
+	Lines_window(Point xy, int w, int h, const string& title);
+	Open_polyline lines;
+private:
+	Button next_button;
+	Button quit_button;
+	In_box next_x;
+	In_box next_y;
+	Out_box xy_out;
+
+	static void cb_next(Address, Address);
+	void next();
+	static void cb_quit(Address, Address);
+	void quit();
+};
+
+class Color_lines_window: public Window{
+public:
+	Color_lines_window(Point xy, int w, int h, const string& title);
+	Open_polyline lines;
+private:
+	Button next_button;
+	Button quit_button;
+	Button color_button;
+	Button ls_button;
+	In_box next_x;
+	In_box next_y;
+	Out_box xy_out;
+	Menu color_menu;
+	Menu ls_menu;
+	bool is_color_pressed;
+	bool is_ls_pressed;	
+
+	static void cb_next(Address, Address);
+	void next();
+	static void cb_quit(Address, Address);
+	void quit();
+
+	static void cb_color_red(Address, Address);
+	void change_color_red();
+
+	static void cb_color_blue(Address, Address);
+	void change_color_blue();
+
+	static void cb_color_green(Address, Address);
+	void change_color_green();
+
+	static void cb_color_button(Address, Address);
+	void press_color_button();
+	
+	static void cb_ls_dot(Address, Address);
+	void change_ls_dot();
+
+	static void cb_ls_dash(Address, Address);
+	void change_ls_dash();
+
+	static void cb_ls_solid(Address, Address);
+	void change_ls_solid();
+
+	static void cb_ls_button(Address, Address);
+	void press_ls_button();
+};
+
 } // of namespace Graph_lib
 
 #endif // GUI_GUARD
