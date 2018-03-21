@@ -16,8 +16,10 @@ try
 {
 	int xWin = 1400;
 	int yWin = 800;
-	Color_lines_window win (Point(400,100),xWin,yWin,"Function Graphs");
-	return gui_main();
+	//Color_lines_window win (Point(400,100),xWin,yWin,"Function Graphs");
+	Main_window win (Point(400,100),xWin,yWin,"Function Graphs");
+	win.wait_for_button();
+	//return gui_main();
 }
 
 catch(exception& e){

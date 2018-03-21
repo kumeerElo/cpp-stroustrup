@@ -22,8 +22,10 @@ struct Simple_window : Graph_lib::Window {
 		Fl::redraw();
 	}
 
-	Button next_button;
-private:
+	//Button next_button;
+	Button* next_button;
+//private:
+  protected:
 	bool button_pushed;
 	
 	static void cb_next(Address, Address addr) // callback for next_button
@@ -32,6 +34,26 @@ private:
 		static_cast<Simple_window*>(addr)->next();
 	}
 
-	void next() { button_pushed = true; }
+	virtual void next() { button_pushed = true; }
 
 };
+
+class Main_window: public Simple_window
+{
+public:
+	Button* quit_button;
+	Main_window(Point xy, int w, int h, const string& title)
+	:Simple_window(xy,w,h,title)
+	{
+		Button* quit_button = new Button(Point(x_max()-70,20),70,20,"quit",cb_quit);
+		attach(*quit_button);
+	}
+private:
+	static void cb_quit(Address, Address addr)
+	{
+		reference_to<Main_window>(addr).quit();
+	}
+	void quit() { button_pushed = true;}
+	void next() {};
+};
+

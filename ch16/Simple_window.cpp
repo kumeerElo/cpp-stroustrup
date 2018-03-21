@@ -10,10 +10,12 @@
 
 Simple_window::Simple_window(Point xy, int w, int h, const string& title) :
     Window(xy,w,h,title),
-    next_button(Point(x_max()-70,0), 70, 20, "Next", cb_next),
+    //next_button(Point(x_max()-70,0), 70, 20, "Next", cb_next),
     button_pushed(false)
 {
-    attach(next_button);
+    //attach(next_button);
+    Button* next_button = new Button(Point(x_max()-70,0), 70, 20, "Next", cb_next);
+    attach(*next_button);
 }
 
 //------------------------------------------------------------------------------
