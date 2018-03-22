@@ -7,9 +7,9 @@
 #include "Simple_window.h"
 //------------------------------------------------------------------------------
 
-const int buttonSize = 40;
-const int dx = 40;
-const int dy = 40;
+const int buttonSize = 100;
+const int dx = 100;
+const int dy = 100;
 
 Simple_window::Simple_window(Point xy, int w, int h, const string& title) :
     Window(xy,w,h,title),
@@ -20,6 +20,55 @@ Simple_window::Simple_window(Point xy, int w, int h, const string& title) :
     Button* next_button = new Button(Point(x_max()-70,0), 70, 20, "Next", cb_next);
     attach(*next_button);
 }
+
+void ImageButton::cb_button_move(Address, Address addr)
+{
+	reference_to<ImageButton>(addr).move_stuff();
+}
+
+int ImageButton::get_random_int(int low, int high)
+{
+	return low + rand()%(high-low);
+}
+
+void ImageButton::move_stuff()
+{
+	int n = get_random_int(0,4);
+	Point center = Point(m_button->loc.x, m_button->loc.y);
+
+	switch (n){
+		case 0:
+			m_button->move(x_max()-100-center.x, 100-center.y);
+			m_image.move(x_max()-100-center.x, 100-center.y);
+			break;
+		case 1:
+			m_button->move(x_max()-100-center.x, y_max()-100-center.y);
+			m_image.move(x_max()-100-center.x, y_max()-100-center.y);
+			break;
+		case 2:
+			m_button->move(100-center.x, y_max()-100-center.y);
+			m_image.move(100-center.x, y_max()-100-center.y);
+			break;
+		case 3:
+			m_button->move(100-center.x, 100-center.y);
+			m_image.move(100-center.x, 100-center.y);
+			break;
+		default:
+			error ("ImageButton:move_stuff()", "random numbers should be 0-4");
+	}
+}
+
+ImageButton::ImageButton(Point xy, int w, int h, const string& title)
+	: Main_window(xy, w, h, title),
+		m_image(Point(x_max()/2, y_max()/2), "queen.jpg")
+{
+	m_button = new Button (Point(x_max()/2, y_max()/2), dx, dy, "", cb_button_move);
+
+	m_image.set_mask(Point(x_max()/5, y_max()/4),dx,dy);
+
+	attach(m_image);
+	attach(*m_button);
+}	
 
 void CheckerBoard::press_button(int n)
 {
@@ -251,45 +300,3 @@ CheckerBoard::CheckerBoard(Point xy, int w, int h, const string& title)
 		attach(m_buttons[i]);
 }
 
-
-//------------------------------------------------------------------------------
-/* mks commented out this function. there is alternate defintion in the header file
-bool Simple_window::wait_for_button()
-// modified event loop:
-// handle all events (as per default), quit when button_pushed becomes true
-// this allows graphics without control inversion
-{
-    show();
-    button_pushed = false;
-#if 1
-    // Simpler handler
-    while (!button_pushed) Fl::wait();
-    Fl::redraw();
-#else
-    // To handle the case where the user presses the X button in the window frame
-    // to kill the application, change the condition to 0 to enable this branch.
-    Fl::run();
-#endif
-    return button_pushed;
-}
-*/
-//------------------------------------------------------------------------------
-/* mks commented out. see header file for the alternate defintion
-
-void Simple_window::cb_next(Address, Address pw)
-// call Simple_window::next() for the window located at pw
-{  
-    reference_to<Simple_window>(pw).next();    
-}
-
-//------------------------------------------------------------------------------
-
-void Simple_window::next()
-{
-    button_pushed = true;
-    hide();
-}
-
-//------------------------------------------------------------------------------
-
-*/

@@ -71,6 +71,7 @@ class CheckerBoard:public Main_window
 {
 public:
 	CheckerBoard(Point xy, int w, int h, const string& title);
+private:
 	Rectangle m_square0;
 	Rectangle m_square1; 
 	Rectangle m_square2;
@@ -80,7 +81,6 @@ public:
 	Rectangle m_square6; 
 	Rectangle m_square7; 
 	Rectangle m_square8; 
-private:
 	Vector_ref<Button> m_buttons;
 	vector<int> m_pressed;
 
@@ -94,24 +94,17 @@ private:
 	static void cb_button_7(Address, Address addr);
 	static void cb_button_8(Address, Address addr);
 
-
-	//{
-	//	reference_to<CheckerBoard>(addr).press_button();
-	//}
-
 	void press_button(int i);
+};
 
-/*
-	void press_button() {
-		if (m_pressed){
-			m_square11.set_visibility(Color::Transparency::invisible);
-			m_pressed=0;
-		}
-		else{
-			m_square11.set_fill_color(Color::blue);
-			m_pressed=1;
-		}
-		redraw();
-	}
-*/
+class ImageButton:public Main_window
+{
+public:
+	ImageButton(Point xy, int w, int h, const string& title);
+private:
+	Button* m_button;
+	Image m_image;
+	static void cb_button_move(Address, Address addr);
+	void move_stuff();
+	int get_random_int(int low, int high);
 };
