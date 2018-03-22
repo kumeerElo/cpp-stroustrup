@@ -1,11 +1,12 @@
 #include "GUI.h"	// for Simple_window only (doesn't really belong in Window.h)
 #include "Window.h" // mks
+#include <vector>
 
 using namespace Graph_lib;
 
 // Simple_window is basic scaffolding for ultra-simple interaction with graphics
 // it provides one window with one "next" button for ultra-simple animation
-
+static int counter = 0;
 struct Simple_window : Graph_lib::Window {
 	Simple_window(Point xy, int w, int h, const string& title );
 	/*: Window(xy,w,h,title),
@@ -53,7 +54,64 @@ private:
 	{
 		reference_to<Main_window>(addr).quit();
 	}
-	void quit() { button_pushed = true;}
-	void next() {};
+	//void quit() { button_pushed = true;}
+	void quit() { hide();}
+	void next() {}
 };
 
+
+/*note to the future 
+
+in the following example, if you make m_square a pointer in the class, the function press_button after the callback function doesn't find rectangle. An unknown rectangle is passed, and when 
+we try to make any change to it, such as color or style, it gives out a segmentation fault. 
+Implemenetation works if we make m_square not a regular memeber as done below - 
+*/
+
+class CheckerBoard:public Main_window
+{
+public:
+	CheckerBoard(Point xy, int w, int h, const string& title);
+	Rectangle m_square0;
+	Rectangle m_square1; 
+	Rectangle m_square2;
+	Rectangle m_square3; 
+	Rectangle m_square4; 
+	Rectangle m_square5; 
+	Rectangle m_square6; 
+	Rectangle m_square7; 
+	Rectangle m_square8; 
+private:
+	Vector_ref<Button> m_buttons;
+	vector<int> m_pressed;
+
+	static void cb_button_0(Address, Address addr);
+	static void cb_button_1(Address, Address addr);
+	static void cb_button_2(Address, Address addr);
+	static void cb_button_3(Address, Address addr);
+	static void cb_button_4(Address, Address addr);
+	static void cb_button_5(Address, Address addr);
+	static void cb_button_6(Address, Address addr);
+	static void cb_button_7(Address, Address addr);
+	static void cb_button_8(Address, Address addr);
+
+
+	//{
+	//	reference_to<CheckerBoard>(addr).press_button();
+	//}
+
+	void press_button(int i);
+
+/*
+	void press_button() {
+		if (m_pressed){
+			m_square11.set_visibility(Color::Transparency::invisible);
+			m_pressed=0;
+		}
+		else{
+			m_square11.set_fill_color(Color::blue);
+			m_pressed=1;
+		}
+		redraw();
+	}
+*/
+};

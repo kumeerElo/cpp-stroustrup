@@ -14,11 +14,13 @@ int main()
 {
 try
 {
-	int xWin = 1400;
-	int yWin = 800;
+	int xWin = 800;
+	int yWin = 600;
 	//Color_lines_window win (Point(400,100),xWin,yWin,"Function Graphs");
-	Main_window win (Point(400,100),xWin,yWin,"Function Graphs");
-	win.wait_for_button();
+	//Main_window win (Point(400,100),xWin,yWin,"Function Graphs");
+	CheckerBoard board(Point(400,100),xWin,yWin,"Function Graphs");
+	return gui_main();
+	//board.wait_for_button();
 	//return gui_main();
 }
 

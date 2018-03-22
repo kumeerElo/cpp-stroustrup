@@ -24,6 +24,7 @@ struct Color {
     dark_magenta=FL_DARK_MAGENTA, dark_cyan=FL_DARK_CYAN
   };
   enum Transparency { invisible = 0, visible=255 };
+  //enum Transparency { invisible = 255, visible=0};
 
   Color(Color_type cc) :c(Fl_Color(cc)), v(visible) { }
   Color(Color_type cc, Transparency vv) :c(Fl_Color(cc)), v(vv) { }
@@ -138,11 +139,16 @@ public:
   void set_line_width(int w) { this->get_ls().set_width(w); } // mks 
 	Line_style get_ls() {return ls;}	
 */
- 
 	void set_line_width(int w){ls.set_width(w);} 
 
-  void set_fill_color(Color col) { fcolor=col;}
+  void set_fill_color(Color col) { 
+		fcolor=col;
+	}
   Color fill_color() const { return fcolor; }
+
+	void set_visibility(Color::Transparency t){
+		fcolor.set_visibility(t);
+	}
 
   Point point(int i) const { return points[i]; }
   int number_of_points() const { return int(points.size()); }
