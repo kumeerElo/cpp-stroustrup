@@ -563,8 +563,14 @@ struct Regular_hexagon:Shape
 			m_triangles[i]->set_fill_color(col); 
 		}
 	}
+	Point center(){return m_center;}
+	void move(int dx, int dy){
+		for (int i=0; i< m_triangles.size(); i++)
+			m_triangles[i]->move(dx,dy);
+	}
 private:
 	vector<RightAngledTriag*> m_triangles;
+	Point m_center;
 };
 
 struct Regular_hexagon2: Shape

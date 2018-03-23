@@ -1164,6 +1164,7 @@ Triangle::Triangle(Point p, int w , int h):
 }
 
 Regular_hexagon::Regular_hexagon(Point center, int side)
+	:m_center(center)
 {
 	//get p1,p2,p3 for the rightangledtriangle based center and side of the hexagon
 

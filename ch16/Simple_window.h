@@ -116,13 +116,19 @@ public:
 	DisplayShape(Point xy, int w, int h, const string& title);
 
 private:
-	const int m_size = 50;
+	const int m_size = 100;
 	In_box m_x;
 	In_box m_y;
+	In_box m_new_x;
+	In_box m_new_y;
 	Menu m_shape;
+	Circle* m_circle;
+	Rectangle* m_square;
+	Regular_hexagon* m_hex;
+	
 	static void cb_button_square(Address, Address addr);
 	static void cb_button_circle(Address, Address addr);
 	static void cb_button_hex(Address, Address addr);
 	void press_shape(Type type);
-
+	void next();//moves every object
 };

@@ -90,18 +90,22 @@ void DisplayShape::press_shape(Type type)
 
 	switch (type){
 		case circle:{
-			Circle* c = new Circle(Point(x,y), m_size);
-			attach(*c);
+			Point c = m_circle->center();
+			m_circle->move(x-c.x,y-c.y);
+			attach(*m_circle);
 			break;
 		}
 		case square:{
-			Rectangle* r = new Rectangle(Point(x,y), m_size, m_size);
-			attach(*r);
+			Point offset = m_square->tl();
+			m_square->move(x-offset.x,y-offset.y);
+			attach(*m_square);
 			break;
 		}
 		case hex:{
-			Regular_hexagon* h = new Regular_hexagon(Point(x,y), m_size);
-			attach(*h);
+			//there is a bug here, offsets are wrong, hex keeps moving -to be looked at later
+			Point offset = m_hex->center();
+			m_hex->move(x-offset.x,y-offset.y);
+			attach(*m_hex);
 			break;
 		}
 		default:
@@ -110,21 +114,48 @@ void DisplayShape::press_shape(Type type)
 	redraw();
 }
 
+void DisplayShape::next()
+{
+//as of now move everything -- 
+
+	int x = m_new_x.get_int();
+	int y = m_new_y.get_int();
+
+	Point c = m_circle->center();
+	m_circle->move(x-c.x,y-c.y);
+
+	Point offset = m_square->tl();
+	m_square->move(x-offset.x,y-offset.y);
+
+	offset = m_hex->center();
+	m_hex->move(x-offset.x,y-offset.y);
+	
+	redraw();
+}
+
 DisplayShape::DisplayShape(Point xy, int w, int h, const string& title)
 	:Main_window(xy, w, h, title),
 	 m_x(Point(x_max()-200,0),70,20, "x"), 
 	 m_y(Point(x_max()-200,20),70,20, "y"),
+	 m_new_x(Point(x_max()-300,0),70,20, "new_x"), 
+	 m_new_y(Point(x_max()-300,20),70,20, "new_y"),
 	 m_shape(Point(x_max()-70,100),70,20, Menu::Kind::vertical, "shape")
 {
 	Button* square = new Button (m_shape.location(),0,0,"square", cb_button_square);
 	Button* circle = new Button (m_shape.location(),0,0,"circle", cb_button_circle);
 	Button* hex = new Button (m_shape.location(),0,0,"hex", cb_button_hex);
+
+	m_circle = new Circle(Point(0,0),m_size);
+	m_square = new Rectangle(Point(0,0),m_size, m_size);
+	m_hex	= new Regular_hexagon(Point(100,100),m_size);
+
 	m_shape.attach(square);
 	m_shape.attach(circle);
 	m_shape.attach(hex);
-
 	attach(m_x);
 	attach(m_y);
+	attach(m_new_x);
+	attach(m_new_y);
 	attach(m_shape);
 }
 
