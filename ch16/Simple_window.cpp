@@ -63,12 +63,70 @@ ImageButton::ImageButton(Point xy, int w, int h, const string& title)
 		m_image(Point(x_max()/2, y_max()/2), "queen.jpg")
 {
 	m_button = new Button (Point(x_max()/2, y_max()/2), dx, dy, "", cb_button_move);
-
 	m_image.set_mask(Point(x_max()/5, y_max()/4),dx,dy);
-
 	attach(m_image);
 	attach(*m_button);
 }	
+
+void DisplayShape::cb_button_square(Address, Address addr)
+{
+	reference_to<DisplayShape>(addr).press_shape(Type::square);
+}
+
+void DisplayShape::cb_button_circle(Address, Address addr)
+{
+	reference_to<DisplayShape>(addr).press_shape(Type::circle);
+}
+
+void DisplayShape::cb_button_hex(Address, Address addr)
+{
+	reference_to<DisplayShape>(addr).press_shape(Type::hex);
+}
+
+void DisplayShape::press_shape(Type type)
+{
+	int x = m_x.get_int();
+	int y = m_y.get_int();
+
+	switch (type){
+		case circle:{
+			Circle* c = new Circle(Point(x,y), m_size);
+			attach(*c);
+			break;
+		}
+		case square:{
+			Rectangle* r = new Rectangle(Point(x,y), m_size, m_size);
+			attach(*r);
+			break;
+		}
+		case hex:{
+			Regular_hexagon* h = new Regular_hexagon(Point(x,y), m_size);
+			attach(*h);
+			break;
+		}
+		default:
+			error("DisplayShape::press_shape", "unknown shape");
+	}
+	redraw();
+}
+
+DisplayShape::DisplayShape(Point xy, int w, int h, const string& title)
+	:Main_window(xy, w, h, title),
+	 m_x(Point(x_max()-200,0),70,20, "x"), 
+	 m_y(Point(x_max()-200,20),70,20, "y"),
+	 m_shape(Point(x_max()-70,100),70,20, Menu::Kind::vertical, "shape")
+{
+	Button* square = new Button (m_shape.location(),0,0,"square", cb_button_square);
+	Button* circle = new Button (m_shape.location(),0,0,"circle", cb_button_circle);
+	Button* hex = new Button (m_shape.location(),0,0,"hex", cb_button_hex);
+	m_shape.attach(square);
+	m_shape.attach(circle);
+	m_shape.attach(hex);
+
+	attach(m_x);
+	attach(m_y);
+	attach(m_shape);
+}
 
 void CheckerBoard::press_button(int n)
 {

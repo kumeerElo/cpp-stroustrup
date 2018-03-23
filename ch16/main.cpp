@@ -19,7 +19,8 @@ try
 	//Color_lines_window win (Point(400,100),xWin,yWin,"Function Graphs");
 	//Main_window win (Point(400,100),xWin,yWin,"Function Graphs");
 	//CheckerBoard board(Point(400,100),xWin,yWin,"Function Graphs");
-	ImageButton button(Point(400,100),xWin,yWin,"Function Graphs");
+	//ImageButton button(Point(400,100),xWin,yWin,"Function Graphs");
+	DisplayShape ss(Point(400,100),xWin,yWin,"shapes");
 	return gui_main();
 	//board.wait_for_button();
 	//return gui_main();

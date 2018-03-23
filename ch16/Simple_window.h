@@ -108,3 +108,21 @@ private:
 	void move_stuff();
 	int get_random_int(int low, int high);
 };
+
+class DisplayShape: public Main_window
+{
+	enum Type {circle,square,hex};
+public:
+	DisplayShape(Point xy, int w, int h, const string& title);
+
+private:
+	const int m_size = 50;
+	In_box m_x;
+	In_box m_y;
+	Menu m_shape;
+	static void cb_button_square(Address, Address addr);
+	static void cb_button_circle(Address, Address addr);
+	static void cb_button_hex(Address, Address addr);
+	void press_shape(Type type);
+
+};

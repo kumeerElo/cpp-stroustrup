@@ -48,6 +48,7 @@ namespace Graph_lib {
 
         virtual ~Widget() { }
 
+				Point location(){return loc;}
     protected:
         Window* own;    // every Widget belongs to a Window
         Fl_Widget* pw;  // connection to the FLTK Widget
