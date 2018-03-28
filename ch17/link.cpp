@@ -32,76 +32,162 @@ int Link::size()
 	return size;
 }
 
-Link* Link::insert(Link* god, int pos)
+Link* Link::insert(Link* l, int pos)
 {
-	Link* n = this;
-	if (pos < 0 || pos > n->size())
-		error ("insert: ", "unacceptable index");
+	if (pos < 0 || pos > this->size())
+		error ("Link::insert ", "unacceptable index");
 
-	if (pos ==0){
-		god->set_next(this);
-		return god;
+	if (pos == 0){
+		l->set_next(this);
+		return l;
 	}
 
-	int count = 1;
-	while (count < pos){
-		n = n->next();
-		count++;
+	Link* prevLink = this;
+	Link* currLink = prevLink->next();
+	int curr = 1;
+
+	while (curr < pos){
+		prevLink = currLink;
+		currLink = currLink->next();
+		curr++;
 	}
-	Link* save = n->next();
-	n->set_next(god);
-	god->set_next(save);
-	return this;
+
+	prevLink->set_next(l);
+	l->set_next(currLink);
+
+	return this;	
 }
 
 Link* Link::remove(int pos)
 {
-	if (pos > this->size()-1)
-		error ("remove: ", "unacceptable index");
+	if (pos < 0 || pos >= this->size())
+		error ("Link::remove: ", "wrong subscript");
 
-	Link* n = this;
-	int prevInd = 0;
+	Link* prevLink = this;
+	Link* currLink = prevLink->next();
 
 	if (pos ==0){
-		Link* save = n->next();
-		delete n;
+		Link* nextLink = this->next();
+		delete this;	
+		return nextLink;
+	}
+
+	int count = 1;
+
+	while (count < pos){
+		prevLink = currLink;
+		currLink = currLink->next();
+		count++;
+	}
+
+	prevLink->set_next(currLink->next());
+	delete currLink;
+	return this;
+}
+
+Link* Link::find(string name)
+{
+	Link* n = this;
+	if (n == NULL)
+		error ("Link::find", "passed a null pointer");
+
+	while(n){
+		if (n->val() == name)
+			return n;
+		if (!n->next()){
+			cout << "The element is not found\n";
+			return NULL;
+		}
+		n = n->next();
+	}
+}
+
+Link* Link::find_and_delete(string name)
+{
+	Link* save = this;
+	Link* prevLink = this;
+	Link* currLink = prevLink->next();
+
+	if (!currLink){
+		if (currLink->val() == name){
+			delete currLink;
+			return NULL;
+		}
 		return save;
 	}
 
-	while (prevInd < pos-1){
-		n = n->next();
-		prevInd++;
+	if (prevLink->val()==name){
+		Link* node = prevLink;
+		prevLink = currLink;
+		currLink = currLink->next();
+		save = prevLink;
+		delete node;	
 	}
 
-	Link* prevLink = n;
-	Link* nextLink = NULL;
-	if (pos < this->size()-1)
-		nextLink=prevLink->next()->next();
-	
-	prevLink->set_next(nextLink);	
-	return this;
+	while (currLink){
+		if (currLink->val()==name){
+			prevLink->set_next(currLink->next());
+
+			Link* node = currLink;
+			currLink = currLink->next();
+			delete node;
+			continue;
+		}
+		prevLink = currLink; 
+		currLink = currLink->next();
+	}
+	return save;
 }
 
 int main(){
 try{
 	Link* indianGods = new Link("bramha", 0);
 	Link* god2 = new Link("vishnu",0);	
-	Link* god3 = new Link("mahesh",0);	
+	Link* god3 = new Link("mahesh",0);
 	Link* god4 = new Link("ram",0);
 	Link* god5 = new Link("hanumaan",0);
-	Link* god6 = new Link("krishna",0);
 
+	// add
 	indianGods->add(god2);
 	indianGods->add(god3);
 	indianGods->add(god4);
 	indianGods->add(god5);
-	//Link* addGods = indianGods->insert(god6, 4);
-	//addGods->print();
+
+	/* find
+	Link* god = indianGods->find("hanuman");
+	if (god)
+		cout <<  "found: " << god->val() << endl;
+	*/
+
+	/* find and delete 
+	cout << "===orig list===" << endl;
+	indianGods->print();
+
+	Link* god6 = new Link("hanumaan",0);
+	Link* modifiedList = indianGods->insert(god6,0);
+	
+	cout << "==modified list==" << endl;
+	modifiedList->print();
+
+	Link* removeElem = modifiedList->find_and_delete("hanumaan");
+
+	cout << "==after deleting==" << endl;
+	removeElem->print();
+	*/
+
+	/* insert 
+	Link* god6 = new Link("krishna",0);
+	Link* addGods = indianGods->insert(god6, 4);
+	addGods->print();
+	*/
+
+	/* remove
 	cout << "Orig list" << endl;
 	indianGods->print();
 	cout << "after removing " << endl;
 	Link* removeGod = indianGods->remove(4);
 	removeGod->print();
+	*/
 
 }//try
 

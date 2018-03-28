@@ -122,16 +122,51 @@ void free_store_memory_alloc()
 {
 	int* ints = new int[10];
 
+	cout << ints << endl;
 	for (int i=0; i< 10; i++)
 		cout << "address for " << i << " is " << dec << ints+i << endl;
+
+	double* doubles = new double[10];
+	cout << doubles << endl;
+	for (int i=0; i< 10; i++)
+		cout << "address for " << i << " is " << dec << doubles+i << endl;
+
+}
+
+void dummy2(){
+	int j = 100;
+	cout << "address of j in the function dummy2() is: " << &j << endl;
+}
+
+void dummy(){
+	int j = 100;
+	cout << "address of j in function dummy() is: " << &j << endl;
+	int k = 100;
+	cout << "address of k in function dummy() is: " << &k << endl;
+	dummy2();
 }
  
 int main(){
 try{
 
-//ex9
-	free_store_memory_alloc();
+//ex9 - addresses in heaps grow up. Stacks, however, are allocated in different way - a function called will have a lower address than the base function, which means that the stacks grow down in terms of address. Within a stack, meaning a function, the addresses allocated grow up. 
+	
+	//free_store_memory_alloc();
 
+/*
+	int i = 7;
+	cout << "address of i: " << &i << endl;
+	dummy();	
+
+	long num = 0;
+	// you have to use this loop to convert hex to decimals. simple and elegant :)
+	while(1){
+		cout << "enter a num\n";
+		cin >> hex >> num;
+		cout << showbase;
+		cout << dec << num << endl;
+ 	}
+*/
 	/*ex 7 - a good program for reallocation
 	char* storage = read_char();
 	cout << "we read\n" << storage << endl;

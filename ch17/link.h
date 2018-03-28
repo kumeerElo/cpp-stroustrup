@@ -15,6 +15,8 @@ public:
 	Link* insert(Link* god, int pos);
 	int size();
 	Link* remove(int pos);
+	Link* find(string name);
+	Link* find_and_delete(string name);
 private:
 	Link* m_next;
 	string m_val;
