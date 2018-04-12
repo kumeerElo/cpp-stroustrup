@@ -18,7 +18,7 @@ private:
 
 Int Int::operator+(const Int& a)
 {
-	return m_n+a.get();
+	return Int(m_n+a.get());
 }
 
 /*
