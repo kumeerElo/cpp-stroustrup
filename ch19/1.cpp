@@ -1,6 +1,7 @@
 #include<iostream>
 using namespace std;
 #include <vector>
+#include "number.h"
 
 template<class T> 
 void print(const vector<T>& v)
@@ -104,8 +105,13 @@ int main()
 */
 	//check double
 
+/*
 	vector<double> v1;
 	vector<double> v2;
 	test(v1, v2);	
+*/
 
+	vector<Number<double>> v1; // great usaage of Number<double> class :)
+	vector<Number<double>> v2;
+	test(v1, v2);	
 }
